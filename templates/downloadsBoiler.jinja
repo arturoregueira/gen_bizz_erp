@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}
+le downloads 
+{% endblock title %}
+
+{% block content %}
+<h1>Salve mine Wagie </h1>
+
+<a href ="{{url_for('download_instance', fileOutput = session['fileOutput'])}}">Download csv</a>
+{% endblock content %}

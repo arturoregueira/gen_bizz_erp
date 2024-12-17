@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+le files
+{% endblock title %}
+
+{% block content %}
+<h1>Salve mine Wagie </h1>
+
+<h2>Vizualize you spreadsheet</h2>
+<form method="post" action="{{url_for('file_upload')}}" enctype="multipart/form-data" >
+<input type="file" name="file" 
+       accept=".xlsx, .xls, .csv, .ods, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, application/vnd.oasis.opendocument.spreadsheet, text/plain" 
+       required="required"/>
+<input type="submit" value="Upload file">
+</form>
+
+<h2>Turn to csv</h2>
+<form method="post" action="{{url_for('to_csv')}}" enctype="multipart/form-data" >
+<input type="file" name="file" 
+       accept=".xlsx, .xls, .ods, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, application/vnd.oasis.opendocument.spreadsheet" 
+       required="required"/>
+<input type="submit" value="Upload file">
+</form>
+
+
+<h2>Be joyful for you have found favor before thine employer </h2>
+{{table}}
+<form method="POST" action="{{ url_for('file_clear') }}" style="display:inline;">
+    <button type="submit">Clear Table</button>
+</form>
+{% endblock content %}
