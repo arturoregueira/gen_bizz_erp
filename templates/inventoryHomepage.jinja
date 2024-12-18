@@ -3,11 +3,6 @@
 
 {% block content %}
 <h1>Welcome</h1>
-<ul>
-{% for inv in inventory %}
-<li> {{inv}} </li>
-{% endfor %}
-</ul>
 
 <form method="post" action="{{url_for('inventory')}}" enctype="multipart/form-data" >
 
@@ -19,4 +14,25 @@
 <br><input type="submit" value="Post">
 </form>
 <br> <a href="{{url_for('index')}}"> Back to main</a>
+
+<table>
+        <thead>
+            <tr>
+                <th>Fabricant ID</th>
+                <th>Fabricant</th>
+                <th>Inventory Name</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inv in inventory %}
+            <tr>
+                <td>{{ inv.fab_Inventory_id }}</td>
+                <td>{{ inv.fabricant }}</td>
+                <td>{{ inv.fab_Inventory_name }}</td>
+                <td>{{ inv.qunt }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock content %}
