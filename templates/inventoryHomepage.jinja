@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Inventory Page{% endblock title %}
+
+{% block content %}
+<h1>Welcome</h1>
+<ul>
+{% for inv in inventory %}
+<li> {{inv}} </li>
+{% endfor %}
+</ul>
+
+<form method="post" action="{{url_for('inventory')}}" enctype="multipart/form-data" >
+
+<input type="text" name="fab_Inventory_id" placeholder="Fabricants Id" required="required">
+<input type="text" name="fabricant" placeholder="Fabricant" required="required">
+<input type="text" name="fab_Inventory_name" placeholder="Product" required="required">
+<input type="number" name="qunt" placeholder="Quantity" required="required">
+<input type="text" name="desc" placeholder="Description" required="required">
+<br><input type="submit" value="Post">
+</form>
+<br> <a href="{{url_for('index')}}"> Back to main</a>
+{% endblock content %}

@@ -7,5 +7,11 @@ Landing Page
 {% block content %}
 <h1>Welcome</h1>
 <br> 
-<a href="{{url_for('files')}}"> Files page</a>
+<ul> 
+<li><a href="{{url_for('files')}}"> Files page</a></li>
+<li><a href="{{url_for('inventory')}}"> Inventory</a></li>
+
+<li><a href="{{url_for('files')}}"> Invoices</a></li>
+</ul>
+
 {% endblock content %}
