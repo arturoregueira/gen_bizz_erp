@@ -95,6 +95,7 @@ def register_routes(app,db):
             db.session.query(
             Inventory.fab_Inventory_id,
             Inventory.fabricant,
+            Inventory.SSR_id,
             Inventory.fab_Inventory_name,
             func.sum(Inventory.qunt).label('qunt')
             ).group_by(Inventory.fab_Inventory_id).all())
@@ -116,10 +117,31 @@ def register_routes(app,db):
             db.session.query(
             Inventory.fab_Inventory_id,
             Inventory.fabricant,
+            Inventory.SSR_id,
             Inventory.fab_Inventory_name,
             func.sum(Inventory.qunt).label('qunt')
             ).group_by(Inventory.fab_Inventory_id).all())
             return render_template("inventoryHomepage.jinja", inventory = inventory)
+    @app.route("/delete/<SSR_id>",methods=["DELETE"] )
+    def delete(SSR_id):
+        Inventory.query.filter(Inventory.SSR_id == SSR_id).delete()
+
+        db.session.commit()
+
+        inventory = (
+            db.session.query(
+            Inventory.fab_Inventory_id,
+            Inventory.fabricant,
+            Inventory.SSR_id,
+            Inventory.fab_Inventory_name,
+            func.sum(Inventory.qunt).label('qunt')
+            ).group_by(Inventory.fab_Inventory_id).all())
+        return render_template("inventoryHomepage.jinja", inventory = inventory)
+
+
+
+        
+
 
 
 

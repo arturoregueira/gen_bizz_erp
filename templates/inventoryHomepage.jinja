@@ -22,6 +22,8 @@
                 <th>Fabricant</th>
                 <th>Inventory Name</th>
                 <th>Quantity</th>
+                
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -31,8 +33,11 @@
                 <td>{{ inv.fabricant }}</td>
                 <td>{{ inv.fab_Inventory_name }}</td>
                 <td>{{ inv.qunt }}</td>
+                
+                <td><button onclick="deleteOrder({{inv.SSR_id}})">Delete</button> </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <script src="static/script.js"></script>
 {% endblock content %}
