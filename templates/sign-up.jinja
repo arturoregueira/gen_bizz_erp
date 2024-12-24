@@ -1,32 +1,15 @@
 {% extends "base.html" %}
 
 {% block title %}
-login
+sign up
 {% endblock title %}
 
 {% block content %}
 <h1>Salve Operarius Mercedis </h1>
-
-<!-- Display flash messages -->
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul>
-      {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-
-
-
-
-<form method="post" action="{{url_for('login')}}">
+<p>Time to sign up!</p>
+<form method="POST" action="{{url_for('sign_up')}}">
     <input type="text" name="username" placeholder="username" required="required"> <br>
     <input type="text" name="password" placeholder="password" required="required"> <br>
     <input type="submit" value="Login"> 
 </form>
-
-<a href="{{url_for('sign_up')}}">Sign Up</a>
-
 {% endblock content %}

@@ -1,30 +1,81 @@
-from flask import render_template, request, session, redirect, url_for, Response, send_from_directory
+from flask import render_template, redirect, url_for, send_from_directory, flash #flask functions
+from flask import request, session, Response # flask object and classes
+from flask_login import current_user, login_user, logout_user,  login_required
 import pandas as pd
 import os
 import uuid
-from models import Inventory
+from models import Inventory,User
 from sqlalchemy import func
-def register_routes(app,db):
+
+
+def register_routes(app, db, bcrypt):
     listOspreads = [".xlsx ", ".xls", ".csv", ".ods", 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', "application/vnd.ms-excel", "application/vnd.oasis.opendocument.spreadsheet",]
     listOspreads_notCsv = [".xlsx ", ".xls", ".ods", 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', "application/vnd.ms-excel", "application/vnd.oasis.opendocument.spreadsheet",]
     
     @app.route("/")
     def index():
+        if current_user.is_authenticated:
+            return render_template("index.jinja")
+        else:
+            return redirect(url_for("login"))
+    
 
-        #mylist = [10,20,30,40,70,120]
-        return render_template("index.jinja")
+
+
+
+    #start of work area!
+    
     @app.route("/login", methods=["GET","POST"])
     def login():
-
         if request.method == "GET":
-            render_template("login.jinja")
+            return render_template("login.jinja")
         elif request.method == "POST":
-            usernameGiven = request.form.get['username']
-            passwordGiven = request.form.get['password']
-            if usernameGiven and passwordGiven:
-                render_template("index.jinja")
+            usernameGiven = request.form.get('username')
+            passwordGiven = request.form.get('password')
+            hash_pass = bcrypt.generate_password_hash(passwordGiven)
+
+            userQue = User.query.filter_by(userName=usernameGiven).first()
+
+            if userQue and bcrypt.check_password_hash(userQue.password,passwordGiven ):
+                login_user(userQue)
+                return redirect(url_for("index"))
             else:
-                return "lopgin falied"
+                return redirect(url_for("login"))
+
+    
+
+    @app.route("/logout")
+    def logout():
+        logout_user()
+        flash("You have been logged out.", "info")
+        return redirect(url_for("login"))
+            
+    @app.route("/sign_up", methods=["GET","POST"])
+    def sign_up():
+        if request.method == "GET":
+            return render_template("sign-up.jinja")
+        elif request.method == "POST":
+            usernameGiven = request.form.get('username')
+            passwordGiven = request.form.get('password')
+            hash_pass = bcrypt.generate_password_hash(passwordGiven)
+            user_already_exists = User.query.filter_by(userName=usernameGiven).first()
+
+            if user_already_exists:
+                flash("Idiota, habere unicum tessera")
+                return redirect(url_for("login"))
+            
+            user = User(userName=usernameGiven, password = hash_pass)
+
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for("login"))
+        
+
+    
+
+
+#end of work area!
+
 
 
     @app.route("/files", methods = ["GET", "POST"])
